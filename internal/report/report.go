@@ -14,7 +14,13 @@ type Report struct {
 	Errors       []string       `json:"errors"`
 }
 
-func CreateReport(path string, report *Report) {
+func CreateReport(path string, report *Report) error {
+
+	total := 0
+	for _, count := range report.Detect {
+		total += count
+	}
+	report.ReplaceTotal = total
 
 	data, err := json.MarshalIndent(report, "", " ")
 	if err != nil {
@@ -22,5 +28,6 @@ func CreateReport(path string, report *Report) {
 
 	}
 	os.WriteFile(path, data, 0644)
+	return nil
 
 }

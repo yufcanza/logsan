@@ -1,0 +1,36 @@
+detectors:
+- detector_id: email
+  type: regex
+  pattern: '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+  replacement_prefix: email
+  enabled:  true
+
+- detector_id: ipv4
+  type: regex
+  pattern: '\b(?:\d{1,3}\.){3}\d{1,3}\b'
+  replacement_prefix: ip
+  enabled: true
+
+- detector_id: url
+  type: regex
+  pattern: 'https?://[^\s<>"{}|\\^]+'
+  replacement_prefix: url
+  enabled: true
+
+- detector_id: token
+  type: regex
+  pattern: 'token=([a-zA-Z0-9]{12})'
+  replacement_prefix: token
+  enabled: true
+  
+- detector_id: windows_user_path
+  type: regex
+  pattern: 'C:\\Users\\([^\\]+)'
+  replacement_prefix: user
+  enabled: true
+
+- detector_id: unix_user_path
+  type: regex
+  pattern: '//home//([^//]+)'
+  replacement_prefix: user
+  enabled: true
