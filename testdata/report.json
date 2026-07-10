@@ -1,0 +1,12 @@
+{
+ "files_processed": 1,
+ "lines_processed": 50,
+ "replacement_total": 176,
+ "by_detector": {
+  "email": 50,
+  "ipv4": 50,
+  "token": 50,
+  "windows_user_path": 26
+ },
+ "errors": []
+}
