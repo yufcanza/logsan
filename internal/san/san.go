@@ -21,8 +21,8 @@ type MappingData struct {
 }
 
 func ProcessLine(line string, detectors []config.Detector) string {
-	mu.Lock()
-	defer mu.Unlock()
+	//mu.Lock()
+	//defer mu.Unlock()
 	result := line
 	//counter := make(map[string]int)
 
@@ -50,7 +50,7 @@ func ProcessLine(line string, detectors []config.Detector) string {
 				mask = fmt.Sprintf("%s_%d", detector.ReplacementPrefix, counter[detector.ID])
 				mapping[key] = mask
 			}
-			result = strings.Replace(result, replaceWhat, mask, 1) //результат замены: заношу в результат маску на выделенное ранее место
+			result = strings.ReplaceAll(result, replaceWhat, mask) //результат замены: заношу в результат маску на выделенное ранее место
 			stats[detector.ID]++                                   //для отчета кол-во замен
 		}
 
