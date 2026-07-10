@@ -8,6 +8,7 @@ import (
 	"logsan/internal/san"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 func Run(inDir, configPath, reportPath string) error {
@@ -33,18 +34,30 @@ func Run(inDir, configPath, reportPath string) error {
 	filecount := 0
 	linecount := 0
 	totalReplacement := 0
+	var wg sync.WaitGroup
+	var mu sync.Mutex
 
 	for _, fileName := range files {
-		inPath := filepath.Join(inDir, fileName)
-		result, err := processor.ProcessFile(inPath, detectors, true)
-		if err != nil {
-			reportData.Errors = append(reportData.Errors, fmt.Sprintf("Ошибка обработки %s : %v", fileName, err))
-			continue
-		}
-		filecount++
-		linecount += result.Lines
-		totalReplacement += result.Replacement
+		wg.Add(1)
+		fileName := fileName
+		go func() {
+			defer wg.Done()
+			inPath := filepath.Join(inDir, fileName)
+			result, err := processor.ProcessFile(inPath, detectors, true)
+			if err != nil {
+				reportData.Errors = append(reportData.Errors, fmt.Sprintf("Ошибка обработки %s : %v", fileName, err))
+				return
+			}
+			mu.Lock()
+			filecount++
+			linecount += result.Lines
+			totalReplacement += result.Replacement
+			mu.Unlock()
+
+		}()
+
 	}
+	wg.Wait()
 
 	stats := san.GetStats()
 	reportData.Detect = stats

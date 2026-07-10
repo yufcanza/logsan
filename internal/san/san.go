@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"logsan/internal/config"
 	"strings"
+	"sync"
 )
 
 var counter = make(map[string]int)    //счётчик для замен, привязанный к паттерну замены
 var mapping = make(map[string]string) //маппинг для стабильной псевдонимизации
 var stats = make(map[string]int)      //связывает детектор и количество замен
+var mu sync.Mutex
 
 func ProcessLine(line string, detectors []config.Detector) string {
+	mu.Lock()
+	defer mu.Unlock()
 	result := line
 	//counter := make(map[string]int)
 
