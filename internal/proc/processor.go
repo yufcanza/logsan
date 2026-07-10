@@ -21,7 +21,7 @@ func ProcessFile(inPath string, detectors []config.Detector, dryrun bool) (*Proc
 	}
 	defer inFile.Close()
 
-	reader := bufio.NewReader(inFile)
+	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
 	result := &ProcessFileResult{}
 
 	for {
@@ -56,7 +56,7 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, detectors []config.
 	}
 	defer inFile.Close()
 
-	reader := bufio.NewReader(inFile)
+	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
 	lines := 0
 	for {
 		line, err := reader.ReadString('\n')

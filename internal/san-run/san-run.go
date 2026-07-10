@@ -57,7 +57,7 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 			}
 			defer outFile.Close()
 
-			writer := bufio.NewWriter(outFile)
+			writer := bufio.NewWriterSize(outFile, 256*1024*1024)
 			lines, err := processor.ProcessFileToWrite(inPath, writer, detectors)
 			if err != nil {
 				mu.Lock()
