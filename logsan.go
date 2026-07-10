@@ -50,12 +50,12 @@ func main() {
 
 	switch mode {
 	case "sanitize":
-		if err := sanrun.Run(flags.inDir, flags.outDir, flags.config, flags.report); err != nil {
+		if err := sanrun.Run(flags.inDir, flags.outDir, flags.config, flags.report, flags.inmap, flags.outmap); err != nil {
 			fmt.Printf("Ошибка: %v\n", err)
 			os.Exit(1)
 		}
 	case "dry-run":
-		if err := dryrun.Run(flags.inDir, flags.config, flags.report); err != nil {
+		if err := dryrun.Run(flags.inDir, flags.config, flags.report, flags.inmap, flags.outmap); err != nil {
 			fmt.Printf("Ошибка: %v\n", err)
 			os.Exit(1)
 		}

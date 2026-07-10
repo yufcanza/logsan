@@ -11,8 +11,14 @@ import (
 	"sync"
 )
 
-func Run(inDir, configPath, reportPath string) error {
+func Run(inDir, configPath, reportPath, mappingIn, mappingOut string) error {
 
+	if mappingIn != "" {
+		err := san.LoadMapping(mappingIn)
+		if err != nil {
+			return fmt.Errorf("Ошибка загрузки словаря: %v", err)
+		}
+	}
 	detectors, err := config.LoadConfig(configPath)
 	if err != nil {
 		return fmt.Errorf("Ошибка загрузки конфига: %v", configPath)
@@ -58,6 +64,12 @@ func Run(inDir, configPath, reportPath string) error {
 
 	}
 	wg.Wait()
+
+	if mappingOut != "" {
+		if err := san.SaveMapping(mappingOut); err != nil {
+			return fmt.Errorf("Ошибка сохранения словаря: %v", err)
+		}
+	}
 
 	stats := san.GetStats()
 	reportData.Detect = stats

@@ -1,8 +1,10 @@
 package san
 
 import (
+	"encoding/json"
 	"fmt"
 	"logsan/internal/config"
+	"os"
 	"strings"
 	"sync"
 )
@@ -11,6 +13,12 @@ var counter = make(map[string]int)    //счётчик для замен, при
 var mapping = make(map[string]string) //маппинг для стабильной псевдонимизации
 var stats = make(map[string]int)      //связывает детектор и количество замен
 var mu sync.Mutex
+
+type MappingData struct {
+	Counter map[string]int    `json: "counter"`
+	Mapping map[string]string `json: "mapping"`
+	Stats   map[string]int    `json:"stats"`
+}
 
 func ProcessLine(line string, detectors []config.Detector) string {
 	mu.Lock()
@@ -48,6 +56,40 @@ func ProcessLine(line string, detectors []config.Detector) string {
 
 	}
 	return result
+}
+
+func SaveMapping(path string) error {
+	data := MappingData{
+		Counter: counter,
+		Mapping: mapping,
+		Stats:   stats,
+	}
+	jsonData, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		return fmt.Errorf("Ошибка создания словаря: %v", err)
+	}
+	if err := os.WriteFile(path, jsonData, 0644); err != nil {
+		return fmt.Errorf("Ошибка записи словаря:%v", err)
+
+	}
+	return nil
+}
+
+func LoadMapping(path string) error {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("Ошибка чтения словаря замен: %v", err)
+	}
+	var mappingData MappingData
+	if err := json.Unmarshal(data, &mappingData); err != nil {
+		return fmt.Errorf("Ошибка парсинга словоря: %v", err)
+	}
+	counter = mappingData.Counter
+	mapping = mappingData.Mapping
+	if mappingData.Stats != nil {
+		stats = mappingData.Stats
+	}
+	return nil
 }
 
 func GetStats() map[string]int {
