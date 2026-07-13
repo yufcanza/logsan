@@ -1,17 +1,67 @@
 package san
 
 import (
+	"logsan/internal/config"
+	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 	"testing"
+)
 
-	"logsan/internal/config"
+var (
+	testEmailRegex = regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`)
+	testIPv4Regex  = regexp.MustCompile(`\b(?:\d{1,3}\.){3}\d{1,3}\b`)
+	testURLRegex   = regexp.MustCompile(`https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`)
+	testTokenRegex = regexp.MustCompile(`[a-fA-F0-9]{12}`)
+	testUserRegex  = regexp.MustCompile(`C:\\Users\\([^\\]+)`)
 )
 
 func resetGlobals() {
 	counter = make(map[string]int)
 	mapping = make(map[string]string)
 	stats = make(map[string]int)
+}
+
+func getTestDetectors() []config.Detector {
+	return []config.Detector{
+		{
+			ID:                "email",
+			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
+			ReplacementPrefix: "email",
+			Enabled:           true,
+			Regex:             testEmailRegex,
+		},
+		{
+			ID:                "ipv4",
+			Pattern:           `\b(?:\d{1,3}\.){3}\d{1,3}\b`,
+			ReplacementPrefix: "ip",
+			Enabled:           true,
+			Regex:             testIPv4Regex,
+		},
+		{
+			ID:                "url",
+			Pattern:           `https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`,
+			ReplacementPrefix: "url",
+			Enabled:           true,
+			Regex:             testURLRegex,
+		},
+		{
+			ID:                "token",
+			Pattern:           `[a-fA-F0-9]{12}`,
+			ReplacementPrefix: "token",
+			Enabled:           true,
+			Regex:             testTokenRegex,
+		},
+		{
+			ID:                "windows_username",
+			Pattern:           `C:\\Users\\([^\\]+)`,
+			ReplacementPrefix: "user",
+			Enabled:           true,
+			Regex:             testUserRegex,
+		},
+	}
+
 }
 
 func TestEmailDetector(t *testing.T) {
@@ -64,15 +114,7 @@ func TestEmailDetector(t *testing.T) {
 }
 
 func TestIp(t *testing.T) {
-	detectors := []config.Detector{
-		{
-			ID:                "ipv4",
-			Pattern:           `\b(?:\d{1,3}\.){3}\d{1,3}\b`,
-			ReplacementPrefix: "ip",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`\b(?:\d{1,3}\.){3}\d{1,3}\b`),
-		},
-	}
+	detectors := getTestDetectors()
 
 	resetGlobals()
 
@@ -111,15 +153,7 @@ func TestIp(t *testing.T) {
 
 }
 func TestUrl(t *testing.T) {
-	detectors := []config.Detector{
-		{
-			ID:                "url",
-			Pattern:           `https?://[^\s<>"{}|\\^]+`,
-			ReplacementPrefix: "url",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`https?://[^\s<>"{}|\\^]+`),
-		},
-	}
+	detectors := getTestDetectors()
 
 	resetGlobals()
 	input := "open https://example.com/login"
@@ -159,15 +193,7 @@ func TestUrl(t *testing.T) {
 }
 
 func TestNoMatch(t *testing.T) {
-	detectors := []config.Detector{
-		{
-			ID:                "email",
-			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
-			ReplacementPrefix: "email",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
-		},
-	}
+	detectors := getTestDetectors()
 
 	resetGlobals()
 	input := "normal log line without secrets"
@@ -210,29 +236,7 @@ func TestDisabledDetector(t *testing.T) {
 }
 
 func TestLongString(t *testing.T) {
-	detectors := []config.Detector{
-		{
-			ID:                "email",
-			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
-			ReplacementPrefix: "email",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
-		},
-		{
-			ID:                "url",
-			Pattern:           `https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`,
-			ReplacementPrefix: "url",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`),
-		},
-		{
-			ID:                "token",
-			Pattern:           `[a-fA-F0-9]{12}`,
-			ReplacementPrefix: "token",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`[a-fA-F0-9]{12}`),
-		},
-	}
+	detectors := getTestDetectors()
 
 	resetGlobals()
 
@@ -295,4 +299,55 @@ func TestLongString(t *testing.T) {
 		t.Errorf("Найдено %d уникальных token-масок, ожидается 1000", tokenMasks)
 	}
 
+}
+
+func TestMappingSaveLoad(t *testing.T) {
+	tmpDir := t.TempDir()
+	mappingPath := filepath.Join(tmpDir, "mapping.json")
+	detectors := getTestDetectors()
+	resetGlobals()
+	input := "user=ivanov email=ivanov@example.com ip=10.1.2.3"
+	ProcessLine(input, detectors)
+	if err := SaveMapping(mappingPath); err != nil {
+		t.Fatalf("Ошибка сохранения: %v", err)
+	}
+	resetGlobals()
+	if err := LoadMapping(mappingPath); err != nil {
+		t.Fatalf("Ошибка загрузки: %v", err)
+	}
+	stats := GetStats()
+	if stats["email"] != 1 {
+		t.Errorf("Ожидается 1 замена email, получено %d", stats["email"])
+	}
+	if stats["ipv4"] != 1 {
+		t.Errorf("Ожидается 1 замена ipv4, получено %d", stats["ipv4"])
+	}
+}
+
+func TestConcurrentProcessing(t *testing.T) {
+	detectors := getTestDetectors()
+	resetGlobals()
+
+	var wg sync.WaitGroup
+	lines := []string{
+		"user=ivanov email=ivanov@example.com",
+		"user=petrova email=petrova@company.ru",
+		"user=ivanov email=ivanov@example.com",
+	}
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for _, line := range lines {
+				ProcessLine(line, detectors)
+			}
+		}()
+	}
+	wg.Wait()
+
+	stats := GetStats()
+	if len(stats) == 0 {
+		t.Error("Статистика пуста, возможно race condition")
+	}
 }
