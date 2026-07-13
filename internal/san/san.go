@@ -19,6 +19,12 @@ type MappingData struct {
 	Mapping map[string]string `json: "mapping"`
 	Stats   map[string]int    `json:"stats"`
 }
+type ReplacementExample struct {
+	DetectorID   string
+	OriginalKind string
+	Replacement  string
+	Count        int
+}
 
 func ProcessLine(line string, detectors []config.Detector) string {
 	//mu.Lock()
@@ -38,10 +44,10 @@ func ProcessLine(line string, detectors []config.Detector) string {
 			var key string
 			if len(match) > 1 { //если в регулярке больше одной группы, заменяю только вторую ([1])группу
 				replaceWhat = match[1]
-				key = detector.ID + replaceWhat //использую дальше для маппинга стабильной псевдонимизации
+				key = detector.ID + "|" + replaceWhat //использую дальше для маппинга стабильной псевдонимизации
 			} else {
 				replaceWhat = match[0] //а если в регулярке нет групп, беру всю найденную строку целиком
-				key = detector.ID + replaceWhat
+				key = detector.ID + "|" + replaceWhat
 			}
 			mask, exists := mapping[key] //использую key для маппинга
 
@@ -98,4 +104,33 @@ func GetStats() map[string]int {
 		result[key] = counts
 	}
 	return result
+}
+
+func GetReplacementExamples() []ReplacementExample {
+	maskStats := make(map[string]map[string]int)
+
+	for key, mask := range mapping {
+		parts := strings.SplitN(key, "|", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		detectorID := parts[0]
+
+		if maskStats[detectorID] == nil {
+			maskStats[detectorID] = make(map[string]int)
+		}
+		maskStats[detectorID][mask]++
+	}
+	var examples []ReplacementExample
+	for detectorID, masks := range maskStats {
+		for mask, count := range masks {
+			examples = append(examples, ReplacementExample{
+				DetectorID:   detectorID,
+				OriginalKind: detectorID,
+				Replacement:  mask,
+				Count:        count,
+			})
+		}
+	}
+	return examples
 }

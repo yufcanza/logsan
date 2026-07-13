@@ -85,8 +85,14 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 	reportData.Detect = stats
 	reportData.FileProc = filecount
 	reportData.LineProc = linecount
+
+	examples := san.GetReplacementExamples()
+	for _, ex := range examples {
+		reportData.AddReplacementExample(ex.DetectorID, ex.OriginalKind, ex.Replacement, ex.Count)
+	}
 	if err := report.CreateReport(reportPath, reportData); err != nil {
 		return fmt.Errorf("Ошибка создания отчета: %v", err)
 	}
+
 	return nil
 }

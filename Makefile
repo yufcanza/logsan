@@ -1,4 +1,3 @@
-# Makefile для logsan
 .PHONY: test bench demo
 
 BINARY_NAME=logsan
@@ -8,7 +7,7 @@ DEMO_CONFIG=detectors.yaml
 DEMO_REPORT=./testdata/report.json
 
 build:
-	go build .
+	go build -o $(BINARY_NAME) ./cmd/logsan
 # Тесты
 test:
 	go test -v ./...

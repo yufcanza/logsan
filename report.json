@@ -9,5 +9,1381 @@
   "url": 50,
   "windows_user_path": 26
  },
- "errors": []
+ "errors": [],
+ "replacement_examples": [
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_2",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_38",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_50",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_24",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_43",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_31",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_3",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_34",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_12",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_46",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_7",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_27",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_26",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_32",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_9",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_30",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_49",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_39",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_16",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_44",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_25",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_41",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_1",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_5",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_15",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_45",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_11",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_36",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_10",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_29",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_19",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_37",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_20",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_42",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_35",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_8",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_33",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_23",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_17",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_48",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_47",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_40",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_13",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_4",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_14",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_21",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_28",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_22",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_18",
+   "count": 1
+  },
+  {
+   "detector_id": "url",
+   "original_kind": "url",
+   "replacement": "url_6",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_3",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_4",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_47",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_25",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_37",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_8",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_1",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_50",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_16",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_34",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_39",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_49",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_42",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_33",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_23",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_11",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_10",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_22",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_13",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_9",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_31",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_6",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_14",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_26",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_43",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_28",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_48",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_5",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_18",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_29",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_17",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_19",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_38",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_44",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_21",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_41",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_46",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_2",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_40",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_30",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_24",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_12",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_27",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_45",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_7",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_20",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_15",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_32",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_36",
+   "count": 1
+  },
+  {
+   "detector_id": "token",
+   "original_kind": "token",
+   "replacement": "token_35",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_8",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_6",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_22",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_21",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_23",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_1",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_17",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_31",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_25",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_5",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_9",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_15",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_7",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_26",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_24",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_27",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_13",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_12",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_14",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_30",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_29",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_19",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_10",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_11",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_28",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_4",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_16",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_2",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_18",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_20",
+   "count": 1
+  },
+  {
+   "detector_id": "email",
+   "original_kind": "email",
+   "replacement": "email_3",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_63",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_8",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_21",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_44",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_13",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_4",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_2",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_12",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_74",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_67",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_57",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_29",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_20",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_32",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_45",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_55",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_30",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_5",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_40",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_31",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_16",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_37",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_1",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_26",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_36",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_3",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_75",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_59",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_19",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_73",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_34",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_25",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_7",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_53",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_35",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_46",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_50",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_11",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_65",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_42",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_72",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_56",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_64",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_39",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_69",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_38",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_62",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_70",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_58",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_22",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_47",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_10",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_15",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_43",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_52",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_71",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_28",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_41",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_17",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_48",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_66",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_23",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_68",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_76",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_6",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_24",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_60",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_33",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_49",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_54",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_9",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_61",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_14",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_27",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_51",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_77",
+   "count": 1
+  },
+  {
+   "detector_id": "ipv4",
+   "original_kind": "ipv4",
+   "replacement": "ip_18",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_8",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_15",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_10",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_14",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_20",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_19",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_16",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_3",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_12",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_4",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_13",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_18",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_5",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_9",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_17",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_1",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_11",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_6",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_21",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_2",
+   "count": 1
+  },
+  {
+   "detector_id": "windows_user_path",
+   "original_kind": "windows_user_path",
+   "replacement": "user_7",
+   "count": 1
+  }
+ ]
 }
