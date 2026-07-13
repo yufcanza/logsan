@@ -15,8 +15,8 @@ var stats = make(map[string]int)      //связывает детектор и �
 var mu sync.Mutex
 
 type MappingData struct {
-	Counter map[string]int    `json: "counter"`
-	Mapping map[string]string `json: "mapping"`
+	Counter map[string]int    `json:"counter"`
+	Mapping map[string]string `json:"mapping"`
 	Stats   map[string]int    `json:"stats"`
 }
 type ReplacementExample struct {
