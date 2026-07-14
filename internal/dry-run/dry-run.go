@@ -12,17 +12,18 @@ import (
 )
 
 func Run(inDir, configPath, reportPath, mappingIn, mappingOut string) error {
-
-	if mappingIn != "" {
-		err := san.LoadMapping(mappingIn)
-		if err != nil {
-			return fmt.Errorf("Ошибка загрузки словаря: %v", err)
-		}
-	}
 	detectors, err := config.LoadConfig(configPath)
 	if err != nil {
 		return fmt.Errorf("Ошибка загрузки конфига: %v", configPath)
 	}
+	sanitizer := san.NewSanitizer(detectors)
+	if mappingIn != "" {
+		err := sanitizer.LoadMapping(mappingIn)
+		if err != nil {
+			return fmt.Errorf("Ошибка загрузки словаря: %v", err)
+		}
+	}
+
 	if _, err := os.Stat(inDir); os.IsNotExist(err) {
 		return fmt.Errorf("Директория %s не существует", inDir)
 	}
@@ -49,7 +50,7 @@ func Run(inDir, configPath, reportPath, mappingIn, mappingOut string) error {
 		go func() {
 			defer wg.Done()
 			inPath := filepath.Join(inDir, fileName)
-			result, err := processor.ProcessFile(inPath, detectors, true)
+			result, err := processor.ProcessFile(inPath, sanitizer, true)
 			if err != nil {
 				reportData.Errors = append(reportData.Errors, fmt.Sprintf("Ошибка обработки %s : %v", fileName, err))
 				return
@@ -66,12 +67,12 @@ func Run(inDir, configPath, reportPath, mappingIn, mappingOut string) error {
 	wg.Wait()
 
 	if mappingOut != "" {
-		if err := san.SaveMapping(mappingOut); err != nil {
+		if err := sanitizer.SaveMapping(mappingOut); err != nil {
 			return fmt.Errorf("Ошибка сохранения словаря: %v", err)
 		}
 	}
 
-	stats := san.GetStats()
+	stats := sanitizer.GetStats()
 	reportData.Detect = stats
 	reportData.FileProc = filecount
 	reportData.LineProc = linecount

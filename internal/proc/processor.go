@@ -3,10 +3,8 @@ package processor
 import (
 	"bufio"
 	"fmt"
-	"os"
-
-	"logsan/internal/config"
 	"logsan/internal/san"
+	"os"
 )
 
 type ProcessFileResult struct {
@@ -14,7 +12,7 @@ type ProcessFileResult struct {
 	Replacement int
 }
 
-func ProcessFile(inPath string, detectors []config.Detector, dryrun bool) (*ProcessFileResult, error) {
+func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*ProcessFileResult, error) {
 	inFile, err := os.Open(inPath)
 	if err != nil {
 		return nil, fmt.Errorf("Не удалось открыть %s: %v", inPath, err)
@@ -28,7 +26,7 @@ func ProcessFile(inPath string, detectors []config.Detector, dryrun bool) (*Proc
 		line, err := reader.ReadString('\n')
 
 		if len(line) > 0 {
-			processed := san.ProcessLine(line, detectors)
+			processed := sanitizer.ProcessLine(line)
 			result.Lines++
 			if processed != line {
 				result.Replacement++
@@ -49,7 +47,7 @@ func ProcessFile(inPath string, detectors []config.Detector, dryrun bool) (*Proc
 	return result, nil
 }
 
-func ProcessFileToWrite(inPath string, writer *bufio.Writer, detectors []config.Detector) (int, error) {
+func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sanitizer) (int, error) {
 	inFile, err := os.Open(inPath)
 	if err != nil {
 		return 0, fmt.Errorf("Ошибка чтения директории %s: %v", inPath, err)
@@ -61,7 +59,7 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, detectors []config.
 	for {
 		line, err := reader.ReadString('\n')
 		if len(line) > 0 {
-			processed := san.ProcessLine(line, detectors)
+			processed := sanitizer.ProcessLine(line)
 			writer.WriteString(processed)
 			lines++
 		}

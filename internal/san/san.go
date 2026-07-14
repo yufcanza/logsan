@@ -9,11 +9,17 @@ import (
 	"sync"
 )
 
-var counter = make(map[string]int)    //счётчик для замен, привязанный к паттерну замены
-var mapping = make(map[string]string) //маппинг для стабильной псевдонимизации
-var stats = make(map[string]int)      //связывает детектор и количество замен
-var mu sync.Mutex
-
+// var counter = make(map[string]int)    //счётчик для замен, привязанный к паттерну замены
+// var mapping = make(map[string]string) //маппинг для стабильной псевдонимизации
+// var stats = make(map[string]int)      //связывает детектор и количество замен
+// var mu sync.Mutex
+type Sanitizer struct {
+	detectors []config.Detector
+	counter   map[string]int
+	mapping   map[string]string
+	stats     map[string]int
+	mu        sync.Mutex
+}
 type MappingData struct {
 	Counter map[string]int    `json:"counter"`
 	Mapping map[string]string `json:"mapping"`
@@ -26,13 +32,30 @@ type ReplacementExample struct {
 	Count        int
 }
 
-func ProcessLine(line string, detectors []config.Detector) string {
-	//mu.Lock()
-	//defer mu.Unlock()
-	result := line
-	//counter := make(map[string]int)
+func NewSanitizer(detectors []config.Detector) *Sanitizer {
+	return &Sanitizer{
+		detectors: detectors,
+		counter:   make(map[string]int),
+		mapping:   make(map[string]string),
+		stats:     make(map[string]int),
+	}
+}
 
-	for _, detector := range detectors {
+func (s *Sanitizer) Reset() {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.counter = make(map[string]int)
+	s.mapping = make(map[string]string)
+	s.stats = make(map[string]int)
+}
+
+func (s *Sanitizer) ProcessLine(line string) string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	result := line
+
+	for _, detector := range s.detectors {
 		if !detector.Enabled {
 			continue
 		}
@@ -49,26 +72,27 @@ func ProcessLine(line string, detectors []config.Detector) string {
 				replaceWhat = match[0] //а если в регулярке нет групп, беру всю найденную строку целиком
 				key = detector.ID + "|" + replaceWhat
 			}
-			mask, exists := mapping[key] //использую key для маппинга
+			mask, exists := s.mapping[key] //использую key для маппинга
 
 			if !exists { //если такое значение ранее не повторялось, доваляю счетчик и делаю новый маппинг
-				counter[detector.ID]++
-				mask = fmt.Sprintf("%s_%d", detector.ReplacementPrefix, counter[detector.ID])
-				mapping[key] = mask
+				s.counter[detector.ID]++
+				mask = fmt.Sprintf("%s_%d", detector.ReplacementPrefix, s.counter[detector.ID])
+				s.mapping[key] = mask
 			}
+			s.stats[detector.ID]++
 			result = strings.ReplaceAll(result, replaceWhat, mask) //результат замены: заношу в результат маску на выделенное ранее место
-			stats[detector.ID]++                                   //для отчета кол-во замен
+			//для отчета кол-во замен
 		}
 
 	}
 	return result
 }
 
-func SaveMapping(path string) error {
+func (s *Sanitizer) SaveMapping(path string) error {
 	data := MappingData{
-		Counter: counter,
-		Mapping: mapping,
-		Stats:   stats,
+		Counter: s.counter,
+		Mapping: s.mapping,
+		Stats:   s.stats,
 	}
 	jsonData, err := json.MarshalIndent(data, "", " ")
 	if err != nil {
@@ -81,7 +105,7 @@ func SaveMapping(path string) error {
 	return nil
 }
 
-func LoadMapping(path string) error {
+func (s *Sanitizer) LoadMapping(path string) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return fmt.Errorf("Ошибка чтения словаря замен: %v", err)
@@ -90,26 +114,26 @@ func LoadMapping(path string) error {
 	if err := json.Unmarshal(data, &mappingData); err != nil {
 		return fmt.Errorf("Ошибка парсинга словоря: %v", err)
 	}
-	counter = mappingData.Counter
-	mapping = mappingData.Mapping
+	s.counter = mappingData.Counter
+	s.mapping = mappingData.Mapping
 	if mappingData.Stats != nil {
-		stats = mappingData.Stats
+		s.stats = mappingData.Stats
 	}
 	return nil
 }
 
-func GetStats() map[string]int {
+func (s *Sanitizer) GetStats() map[string]int {
 	result := make(map[string]int)
-	for key, counts := range stats { //key - ID детектора, counts - количество замен
+	for key, counts := range s.stats { //key - ID детектора, counts - количество замен
 		result[key] = counts
 	}
 	return result
 }
 
-func GetReplacementExamples() []ReplacementExample {
+func (s *Sanitizer) GetReplacementExamples() []ReplacementExample {
 	maskStats := make(map[string]map[string]int)
 
-	for key, mask := range mapping {
+	for key, mask := range s.mapping {
 		parts := strings.SplitN(key, "|", 2)
 		if len(parts) != 2 {
 			continue

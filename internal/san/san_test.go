@@ -17,11 +17,11 @@ var (
 	testUserRegex  = regexp.MustCompile(`C:\\Users\\([^\\]+)`)
 )
 
-func resetGlobals() {
-	counter = make(map[string]int)
-	mapping = make(map[string]string)
-	stats = make(map[string]int)
-}
+// func resetGlobals() {
+// 	counter = make(map[string]int)
+// 	mapping = make(map[string]string)
+// 	stats = make(map[string]int)
+// }
 
 func getTestDetectors() []config.Detector {
 	return []config.Detector{
@@ -66,47 +66,44 @@ func getTestDetectors() []config.Detector {
 
 func TestEmailDetector(t *testing.T) {
 
-	detectors := []config.Detector{
-		{
-			ID:                "email",
-			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
-			ReplacementPrefix: "email",
-			Enabled:           true,
-			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
-		},
-	}
-
-	resetGlobals()
+	detectors := getTestDetectors()
+	sanitizer := NewSanitizer(detectors)
+	sanitizer.Reset()
 	//тест корректной замены
 	input := "user email=ivanov@example.com"
 	want := "user email=email_1"
-	result := ProcessLine(input, detectors)
+	result := sanitizer.ProcessLine(input)
 
 	if result != want {
 		t.Errorf("ProcessLine()= %q, want %q", result, want)
 	}
+	stats := sanitizer.GetStats()
 	if stats["email"] != 1 {
 		t.Errorf("stats[email] = %d, want 1", stats["email"])
 	}
-	resetGlobals()
+
+	sanitizer.Reset()
 	sameInput := "ivanov@example.com and ivanov@example.com"
 	sameWant := "email_1 and email_1"
-	sameResult := ProcessLine(sameInput, detectors)
+	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
 		t.Errorf("ProcessLine()= %q, want %q", sameResult, sameWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["email"] != 2 {
 		t.Errorf("stats[email] = %d, want 2", stats["email"])
 	}
-	resetGlobals()
+	sanitizer.Reset()
+
 	differentInput := "ivanov@example.com and smirnov@example.com"
 	differentWant := "email_1 and email_2"
-	differentResult := ProcessLine(differentInput, detectors)
+	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {
 		t.Errorf("ProcessLine()= %q, want %q", differentResult, differentWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["email"] != 2 {
 		t.Errorf("stats[email] = %d, want 2", stats["email"])
 	}
@@ -115,38 +112,43 @@ func TestEmailDetector(t *testing.T) {
 
 func TestIp(t *testing.T) {
 	detectors := getTestDetectors()
-
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
+	sanitizer.Reset()
 
 	input := "src=10.1.2.3"
 	want := "src=ip_1"
-	result := ProcessLine(input, detectors)
+	result := sanitizer.ProcessLine(input)
 
 	if result != want {
 		t.Errorf("ProcessLine()= %q, want %q", result, want)
 	}
+	stats := sanitizer.GetStats()
 	if stats["ipv4"] != 1 {
 		t.Errorf("stats[ip] = %d, want 1", stats["ipv4"])
 	}
-	resetGlobals()
+	sanitizer.Reset()
+
 	sameInput := "src=10.1.2.3 dst=10.1.2.3"
 	sameWant := "src=ip_1 dst=ip_1"
-	sameResult := ProcessLine(sameInput, detectors)
+	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
 		t.Errorf("ProcessLine()= %q, want %q", sameResult, sameWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["ipv4"] != 2 {
 		t.Errorf("stats[ip] = %d, want 2", stats["ipv4"])
 	}
-	resetGlobals()
+	sanitizer.Reset()
+
 	differentInput := "src=10.1.2.5 dst=192.168.1.15"
 	differentWant := "src=ip_1 dst=ip_2"
-	differentResult := ProcessLine(differentInput, detectors)
+	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {
 		t.Errorf("ProcessLine()= %q, want %q", differentResult, differentWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["ipv4"] != 2 {
 		t.Errorf("stats[ip] = %d, want 2", stats["ipv4"])
 	}
@@ -154,38 +156,41 @@ func TestIp(t *testing.T) {
 }
 func TestUrl(t *testing.T) {
 	detectors := getTestDetectors()
-
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
+	sanitizer.Reset()
 	input := "open https://example.com/login"
 	want := "open url_1"
-	result := ProcessLine(input, detectors)
+	result := sanitizer.ProcessLine(input)
 
 	if result != want {
 		t.Errorf("ProcessLine()= %q, want %q", result, want)
 	}
+	stats := sanitizer.GetStats()
 	if stats["url"] != 1 {
 		t.Errorf("stats[url] = %d, want 1", stats["url"])
 	}
-	resetGlobals()
+	sanitizer.Reset()
 
 	sameInput := "open https://example.com/login and https://example.com/login"
 	sameWant := "open url_1 and url_1"
-	sameResult := ProcessLine(sameInput, detectors)
+	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
 		t.Errorf("ProcessLine()= %q, want %q", sameResult, sameWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["url"] != 2 {
 		t.Errorf("stats[url] = %d, want 2", stats["url"])
 	}
-	resetGlobals()
+	sanitizer.Reset()
 	differentInput := "open https://example.com/login and https://example.com/dowload"
 	differentWant := "open url_1 and url_2"
-	differentResult := ProcessLine(differentInput, detectors)
+	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {
 		t.Errorf("ProcessLine()= %q, want %q", differentResult, differentWant)
 	}
+	stats = sanitizer.GetStats()
 	if stats["url"] != 2 {
 		t.Errorf("stats[url] = %d, want 2", stats["url"])
 	}
@@ -194,15 +199,16 @@ func TestUrl(t *testing.T) {
 
 func TestNoMatch(t *testing.T) {
 	detectors := getTestDetectors()
-
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
+	sanitizer.Reset()
 	input := "normal log line without secrets"
 	want := "normal log line without secrets"
-	result := ProcessLine(input, detectors)
+	result := sanitizer.ProcessLine(input)
 
 	if result != want {
 		t.Errorf("ProcessLine()= %q, want %q", result, want)
 	}
+	stats := sanitizer.GetStats()
 	if stats["url"] != 0 {
 		t.Errorf("stats should be empty, got %v", stats)
 	}
@@ -219,16 +225,17 @@ func TestDisabledDetector(t *testing.T) {
 			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
 		},
 	}
-
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
 	//тест корректной замены
+	sanitizer.Reset()
 	input := "user email=ivanov@example.com"
 	want := "user email=ivanov@example.com"
-	result := ProcessLine(input, detectors)
+	result := sanitizer.ProcessLine(input)
 
 	if result != want {
 		t.Errorf("ProcessLine()= %q, want %q", result, want)
 	}
+	stats := sanitizer.GetStats()
 	if stats["email"] != 0 {
 		t.Errorf("stats[email] = %d, want 1", stats["email"])
 	}
@@ -237,8 +244,9 @@ func TestDisabledDetector(t *testing.T) {
 
 func TestLongString(t *testing.T) {
 	detectors := getTestDetectors()
+	sanitizer := NewSanitizer(detectors)
 
-	resetGlobals()
+	sanitizer.Reset()
 
 	parts := make([]string, 0, 1000)
 	for i := 0; i < 1000; i++ {
@@ -249,11 +257,11 @@ func TestLongString(t *testing.T) {
 	}
 	longLine := strings.Join(parts, " ")
 
-	result := ProcessLine(longLine, detectors)
+	result := sanitizer.ProcessLine(longLine)
 	if len(result) == 0 {
 		t.Error("Результат пустой")
 	}
-	stats := GetStats()
+	stats := sanitizer.GetStats()
 	if stats["email"] != 1000 {
 		t.Errorf("Детектор email: ожидается 1000 замен, получено %d", stats["email"])
 	}
@@ -305,17 +313,18 @@ func TestMappingSaveLoad(t *testing.T) {
 	tmpDir := t.TempDir()
 	mappingPath := filepath.Join(tmpDir, "mapping.json")
 	detectors := getTestDetectors()
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
+	sanitizer.Reset()
 	input := "user=ivanov email=ivanov@example.com ip=10.1.2.3"
-	ProcessLine(input, detectors)
-	if err := SaveMapping(mappingPath); err != nil {
+	sanitizer.ProcessLine(input)
+	if err := sanitizer.SaveMapping(mappingPath); err != nil {
 		t.Fatalf("Ошибка сохранения: %v", err)
 	}
-	resetGlobals()
-	if err := LoadMapping(mappingPath); err != nil {
+	sanitizer.Reset()
+	if err := sanitizer.LoadMapping(mappingPath); err != nil {
 		t.Fatalf("Ошибка загрузки: %v", err)
 	}
-	stats := GetStats()
+	stats := sanitizer.GetStats()
 	if stats["email"] != 1 {
 		t.Errorf("Ожидается 1 замена email, получено %d", stats["email"])
 	}
@@ -326,7 +335,8 @@ func TestMappingSaveLoad(t *testing.T) {
 
 func TestConcurrentProcessing(t *testing.T) {
 	detectors := getTestDetectors()
-	resetGlobals()
+	sanitizer := NewSanitizer(detectors)
+	//resetGlobals()
 
 	var wg sync.WaitGroup
 	lines := []string{
@@ -340,13 +350,13 @@ func TestConcurrentProcessing(t *testing.T) {
 		go func() {
 			defer wg.Done()
 			for _, line := range lines {
-				ProcessLine(line, detectors)
+				sanitizer.ProcessLine(line)
 			}
 		}()
 	}
 	wg.Wait()
 
-	stats := GetStats()
+	stats := sanitizer.GetStats()
 	if len(stats) == 0 {
 		t.Error("Статистика пуста, возможно race condition")
 	}

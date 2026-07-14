@@ -106,6 +106,7 @@ func Benchmark_GBLog(b *testing.B) {
 	defer os.Remove(logPath)
 
 	detectors := getDetectors()
+	sanitizer := NewSanitizer(detectors)
 
 	inFile, err := os.Open(logPath)
 	if err != nil {
@@ -129,7 +130,7 @@ func Benchmark_GBLog(b *testing.B) {
 	for {
 		line, err := reader.ReadString('\n')
 		if len(line) > 0 {
-			processed := ProcessLine(line, detectors)
+			processed := sanitizer.ProcessLine(line)
 			writer.WriteString(processed)
 			lineCount++
 		}
