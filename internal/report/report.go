@@ -39,6 +39,9 @@ func (r *Report) AddReplacementExample(DetectorID, OriginalKind, replacement str
 }
 func CreateReport(path string, report *Report) error {
 
+	if report == nil {
+		return fmt.Errorf("Отчет не может быть nil")
+	}
 	total := 0
 	for _, count := range report.Detect {
 		total += count
@@ -50,7 +53,9 @@ func CreateReport(path string, report *Report) error {
 		fmt.Printf("Ошибка создания репорта: %v\n", err)
 
 	}
-	os.WriteFile(path, data, 0644)
+	if err := os.WriteFile(path, data, 0644); err != nil {
+		return fmt.Errorf("Ошибка записи файла %s: %v", path, err)
+	}
 	return nil
 
 }

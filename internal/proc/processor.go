@@ -17,7 +17,11 @@ func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*Process
 	if err != nil {
 		return nil, fmt.Errorf("Не удалось открыть %s: %v", inPath, err)
 	}
-	defer inFile.Close()
+	defer func() {
+		if err := inFile.Close(); err != nil {
+			fmt.Printf("Ошибка закрытия %s: %v", inPath, err)
+		}
+	}()
 
 	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
 	result := &ProcessFileResult{}
@@ -60,7 +64,9 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 		line, err := reader.ReadString('\n')
 		if len(line) > 0 {
 			processed := sanitizer.ProcessLine(line)
-			writer.WriteString(processed)
+			if _, err := writer.WriteString(processed); err != nil {
+				return lines, fmt.Errorf("Ошибка записи: %v", err)
+			}
 			lines++
 		}
 		if err != nil {
@@ -69,6 +75,9 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 			}
 			break
 		}
+	}
+	if err := writer.Flush(); err != nil {
+		return lines, fmt.Errorf("Ошибка сброса буфера: %v", err)
 	}
 	return lines, nil
 }

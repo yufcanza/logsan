@@ -19,12 +19,14 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 	}
 
 	sanitizer := san.NewSanitizer(detectors)
+
 	if mappingIn != "" {
 		err := sanitizer.LoadMapping(mappingIn)
 		if err != nil {
 			return fmt.Errorf("Ошибка загрузки словаря: %v", err)
 		}
 	}
+
 	if _, err := os.Stat(inDir); os.IsNotExist(err) {
 		return fmt.Errorf("Директория %v не существует", inDir)
 	}
@@ -43,6 +45,8 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 
+	errorsChan := make(chan string, len(files)) // канал для сбора ошибок
+
 	for _, fileName := range files {
 		wg.Add(1)
 		fileName := fileName
@@ -53,21 +57,25 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 			outPath := filepath.Join(outDir, "clean_"+fileName)
 			outFile, err := os.Create(outPath)
 			if err != nil {
-				reportData.Errors = append(reportData.Errors, fmt.Sprintf("Ошибка создания %s: %v", outPath, err))
+				errorsChan <- fmt.Sprintf("Ошибка создания %s: %v", outPath, err)
 				return
 			}
-			defer outFile.Close()
+			defer func() {
+				if err := outFile.Close(); err != nil {
+					errorsChan <- fmt.Sprintf("Ошибка закрытия %s: %v", outPath, err)
+				}
+			}()
 
 			writer := bufio.NewWriterSize(outFile, 256*1024*1024)
 			lines, err := processor.ProcessFileToWrite(inPath, writer, sanitizer)
 			if err != nil {
-				mu.Lock()
-				reportData.Errors = append(reportData.Errors, fmt.Sprintf("Ошибка обработки %s: %v", fileName, err))
-				mu.Unlock()
-				outFile.Close()
+				errorsChan <- fmt.Sprintf("Ошибка обработки %s: %v", fileName, err)
 				return
 			}
-			writer.Flush()
+			if err := writer.Flush(); err != nil {
+				errorsChan <- fmt.Sprintf("Ошибка сброса буфера %s: %v", fileName, err)
+				return
+			}
 			//outFile.Close()
 			mu.Lock()
 			filecount++
@@ -76,6 +84,11 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 		}()
 	}
 	wg.Wait()
+	close(errorsChan)
+
+	for errMsg := range errorsChan {
+		reportData.Errors = append(reportData.Errors, errMsg)
+	}
 
 	if mappingOut != "" {
 		if err := sanitizer.SaveMapping(mappingOut); err != nil {
