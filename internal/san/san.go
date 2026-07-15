@@ -56,7 +56,7 @@ func (s *Sanitizer) ProcessLine(line string) string {
 	result := line
 
 	for _, detector := range s.detectors {
-		if !detector.Enabled {
+		if !detector.IsEnabled() {
 			continue
 		}
 		matches := detector.Regex.FindAllStringSubmatch(result, -1) //ищет все совпадения регулярных значений в строке,

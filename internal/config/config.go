@@ -16,8 +16,15 @@ type Detector struct { //для хранения каждого отдельно
 	Type              string         `yaml:"type"`
 	Pattern           string         `yaml:"pattern"`
 	ReplacementPrefix string         `yaml:"replacement_prefix"`
-	Enabled           bool           `yaml:"enabled"`
+	Enabled           *bool          `yaml:"enabled, omitempty"`
 	Regex             *regexp.Regexp //храним тут скомпилированное регулярное значение pattern
+}
+
+func (d *Detector) IsEnabled() bool {
+	if d.Enabled == nil {
+		return true
+	}
+	return *d.Enabled
 }
 
 func LoadConfig(path string) ([]Detector, error) {
@@ -32,7 +39,7 @@ func LoadConfig(path string) ([]Detector, error) {
 	}
 
 	for i := range config.Detectors {
-		if config.Detectors[i].Enabled {
+		if config.Detectors[i].IsEnabled() {
 			pattern := config.Detectors[i].Pattern
 			re, err := regexp.Compile(pattern) //компилируем регулярное значение для каждого детектора
 			if err != nil {

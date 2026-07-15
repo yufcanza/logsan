@@ -215,13 +215,13 @@ func TestNoMatch(t *testing.T) {
 
 }
 func TestDisabledDetector(t *testing.T) {
-
+	enabledFalse := false
 	detectors := []config.Detector{
 		{
 			ID:                "email",
 			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
 			ReplacementPrefix: "email",
-			Enabled:           false,
+			Enabled:           &enabledFalse,
 			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
 		},
 	}

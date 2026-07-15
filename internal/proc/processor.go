@@ -59,7 +59,11 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 	if err != nil {
 		return 0, fmt.Errorf("Ошибка чтения директории %s: %v", inPath, err)
 	}
-	defer inFile.Close()
+	defer func() {
+		if err := inFile.Close(); err != nil {
+			fmt.Printf("Ошибка закрытия %s: %v", inPath, err)
+		}
+	}()
 
 	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
 	lines := 0

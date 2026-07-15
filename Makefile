@@ -1,10 +1,10 @@
 .PHONY: test bench demo
 
-BINARY_NAME=logsan
-DEMO_INPUT=./testdata/in
-DEMO_OUTPUT=./testdata/out
-DEMO_CONFIG=detectors.yaml
-DEMO_REPORT=./testdata/report.json
+BINARY_NAME=logsan.exe
+DEMO_INPUT=.//testdata/control/input
+DEMO_OUTPUT=./testdata/control/output
+DEMO_CONFIG=./testdata/control/config/detectors.yaml
+DEMO_REPORT=./testdata/control/report.json
 
 build:
 	go build -o $(BINARY_NAME) ./cmd/logsan

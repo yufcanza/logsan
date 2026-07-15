@@ -38,8 +38,8 @@ func main() {
 	flag.StringVar(&flags.outDir, "out", "./clean-logs", "Выход")
 	flag.StringVar(&flags.report, "report", "report.json", "Репорт")
 	flag.StringVar(&flags.config, "config", "detectors.yaml", "Конфиг")
-	flag.StringVar(&flags.inmap, "inmap", "", "Загрузить словарь замен")
-	flag.StringVar(&flags.outmap, "outmap", "", "Сохранить словарь замен")
+	flag.StringVar(&flags.inmap, "mapping-in", "", "Загрузить словарь замен")
+	flag.StringVar(&flags.outmap, "mapping-out", "", "Сохранить словарь замен")
 	flag.Parse()
 	fmt.Printf("%v", flags)
 

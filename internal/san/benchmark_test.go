@@ -62,40 +62,41 @@ func createSyntheticLog(b *testing.B, size int) string {
 }
 
 func getDetectors() []config.Detector {
+	enabledTrue := true
 	return []config.Detector{
 		{
 			ID:                "email",
 			Pattern:           `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`,
 			ReplacementPrefix: "email",
-			Enabled:           true,
+			Enabled:           &enabledTrue,
 			Regex:             regexp.MustCompile(`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`),
 		},
 		{
 			ID:                "ipv4",
 			Pattern:           `\b(?:\d{1,3}\.){3}\d{1,3}\b`,
 			ReplacementPrefix: "ip",
-			Enabled:           true,
+			Enabled:           &enabledTrue,
 			Regex:             regexp.MustCompile(`\b(?:\d{1,3}\.){3}\d{1,3}\b`),
 		},
 		{
 			ID:                "token",
 			Pattern:           `[a-fA-F0-9]{12}`,
 			ReplacementPrefix: "token",
-			Enabled:           true,
+			Enabled:           &enabledTrue,
 			Regex:             regexp.MustCompile(`[a-fA-F0-9]{12}`),
 		},
 		{
 			ID:                "url",
 			Pattern:           `https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`,
 			ReplacementPrefix: "url",
-			Enabled:           true,
+			Enabled:           &enabledTrue,
 			Regex:             regexp.MustCompile(`https?://[^\s<>"{}|\\^` + "`" + `\[\]]+`),
 		},
 		{
 			ID:                "windows_username",
 			Pattern:           `[A-Z]:\\Users\\([^\\]+)`,
 			ReplacementPrefix: "user",
-			Enabled:           true,
+			Enabled:           &enabledTrue,
 			Regex:             regexp.MustCompile(`[A-Z]:\\Users\\([^\\]+)`),
 		},
 	}

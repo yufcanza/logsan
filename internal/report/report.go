@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 type ReplacementExample struct {
@@ -16,7 +18,7 @@ type ReplacementExample struct {
 type Report struct {
 	FileProc            int                  `json:"files_processed"`
 	LineProc            int                  `json:"lines_processed"`
-	ReplaceTotal        int                  `json:"replacement_total"`
+	ReplaceTotal        int                  `json:"replacements_total"`
 	Detect              map[string]int       `json:"by_detector"`
 	Errors              []string             `json:"errors"`
 	ReplacementExamples []ReplacementExample `json:"replacement_examples,omitempty"`
@@ -47,10 +49,20 @@ func CreateReport(path string, report *Report) error {
 		total += count
 	}
 	report.ReplaceTotal = total
+	ext := strings.ToLower(filepath.Ext(path))
 
+	switch ext {
+	case ".md", ".markdown":
+		return SaveMarkdown(path, report)
+
+	default:
+		return saveJson(path, report)
+	}
+}
+func saveJson(path string, report *Report) error {
 	data, err := json.MarshalIndent(report, "", " ")
 	if err != nil {
-		fmt.Printf("Ошибка создания репорта: %v\n", err)
+		return fmt.Errorf("Ошибка создания репорта: %v\n", err)
 
 	}
 	if err := os.WriteFile(path, data, 0644); err != nil {
@@ -58,4 +70,36 @@ func CreateReport(path string, report *Report) error {
 	}
 	return nil
 
+}
+func SaveMarkdown(path string, report *Report) error {
+	var sb strings.Builder
+	sb.WriteString("Отчет об обезличивании логов")
+	sb.WriteString("Общая статистика\n\n")
+	sb.WriteString("| Показатель | Значение |\n")
+	sb.WriteString("|------------|----------|\n")
+	sb.WriteString(fmt.Sprintf("| Обработано файлов | %d |\n", report.FileProc))
+	sb.WriteString(fmt.Sprintf("| Обработано строк | %d |\n", report.LineProc))
+	sb.WriteString(fmt.Sprintf("| Всего замен | %d |\n", report.ReplaceTotal))
+	sb.WriteString("\n")
+
+	if len(report.Detect) > 0 {
+		sb.WriteString(" Замены по детекторам\n\n")
+		sb.WriteString("| Детектор | Количество замен |\n")
+		sb.WriteString("|----------|------------------|\n")
+		for id, count := range report.Detect {
+			sb.WriteString(fmt.Sprintf("| `%s` | %d |\n", id, count))
+		}
+		sb.WriteString("\n")
+	}
+
+	if len(report.Errors) > 0 {
+		sb.WriteString("Ошибки\n\n")
+		for _, err := range report.Errors {
+			sb.WriteString(fmt.Sprintf("- Ошибка: %s\n", err))
+		}
+		sb.WriteString("\n")
+	} else {
+		sb.WriteString(" Ошибок не обнаружено\n\n")
+	}
+	return os.WriteFile(path, []byte(sb.String()), 0644)
 }
