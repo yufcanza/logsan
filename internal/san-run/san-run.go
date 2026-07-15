@@ -43,7 +43,7 @@ func RunDir(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string)
 		return fmt.Errorf("Директория %v не существует", inDir)
 	}
 
-	if err := os.Mkdir(outDir, 0755); err != nil {
+	if err := os.MkdirAll(outDir, 0755); err != nil {
 		return fmt.Errorf("ошибка создания директории %s: %v", outDir, err)
 	}
 
@@ -146,7 +146,7 @@ func RunFile(inFile, outFile, configPath, reportPath, mappingIn, mappingOut stri
 		return fmt.Errorf("Файл %v не существует", inFile)
 	}
 
-	if err := os.Mkdir(filepath.Dir(outFile), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(outFile), 0755); err != nil {
 		return fmt.Errorf("ошибка создания директории: %v", err)
 	}
 

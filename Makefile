@@ -1,8 +1,8 @@
 .PHONY: test bench demo
 
 BINARY_NAME=logsan.exe
-DEMO_INPUT=.//testdata/control/input
-DEMO_OUTPUT=./testdata/control/output
+DEMO_INPUT=./testdata/control/input/
+DEMO_OUTPUT=./testdata/control/output/
 DEMO_CONFIG=./testdata/control/config/detectors.yaml
 DEMO_REPORT=./testdata/control/report.json
 

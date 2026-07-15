@@ -16,7 +16,7 @@ type Detector struct { //для хранения каждого отдельно
 	Type              string         `yaml:"type"`
 	Pattern           string         `yaml:"pattern"`
 	ReplacementPrefix string         `yaml:"replacement_prefix"`
-	Enabled           *bool          `yaml:"enabled, omitempty"`
+	Enabled           *bool          `yaml:"enabled,omitempty"`
 	Regex             *regexp.Regexp //храним тут скомпилированное регулярное значение pattern
 }
 

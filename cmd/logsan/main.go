@@ -29,9 +29,6 @@ func main() {
 	}
 	mode := os.Args[1]
 
-	fmt.Printf("%+v\n", mode)
-	fmt.Printf("%+v\n", flags)
-
 	os.Args = append(os.Args[:1], os.Args[2:]...)
 
 	flag.StringVar(&flags.inDir, "in", "./logs", "Вход")
@@ -41,7 +38,6 @@ func main() {
 	flag.StringVar(&flags.inmap, "mapping-in", "", "Загрузить словарь замен")
 	flag.StringVar(&flags.outmap, "mapping-out", "", "Сохранить словарь замен")
 	flag.Parse()
-	fmt.Printf("%v", flags)
 
 	if mode != "sanitize" && mode != "dry-run" {
 		fmt.Printf("Укажите sanitize или dry-run, сейчас: %s\n", mode)

@@ -25,7 +25,7 @@ func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*Process
 		}
 	}()
 
-	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
+	reader := bufio.NewReaderSize(inFile, 5*1024*1024)
 	result := &ProcessFileResult{}
 
 	for {
@@ -37,9 +37,7 @@ func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*Process
 			if processed != line {
 				result.Replacement++
 			}
-			if !dryrun {
 
-			}
 		}
 		if err != nil {
 			if errors.Is(err, io.EOF) {
