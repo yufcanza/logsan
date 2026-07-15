@@ -14,7 +14,11 @@ test:
 
 # Бенчмарки
 bench:
-	go test -v ./... -bench=. -benchtime=1x
+	go test -v ./... -bench=BenchmarkSmall -benchmem
+
+#Бенчмарк на 1 ГБ лога
+bench-1gb:
+	LOGSAN_BENCH_1GB=1 go test ./... -bench=Benchmark_GBLog -benchtime=1x
 
 # Демонстрация
 demo: build

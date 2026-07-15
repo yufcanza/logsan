@@ -115,6 +115,9 @@ func BenchmarkSmall(b *testing.B) {
 }
 
 func Benchmark_GBLog(b *testing.B) {
+	if os.Getenv("LOGSAN_BENCH_1GB") != "1" {
+		b.Skip("set LOGSAN_BENCH_1GB=1 to run 1GB benchmark")
+	}
 	logPath := createSyntheticLog(b, 1024*1024*1024)
 	defer os.Remove(logPath)
 
