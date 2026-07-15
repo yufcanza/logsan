@@ -23,7 +23,7 @@ var (
 // 	stats = make(map[string]int)
 // }
 
-func getTestDetectors() []config.Detector {
+/*func getTestDetectors() []config.Detector {
 	return []config.Detector{
 		{
 			ID:                "email",
@@ -62,11 +62,11 @@ func getTestDetectors() []config.Detector {
 		},
 	}
 
-}
+}*/
 
 func TestEmailDetector(t *testing.T) {
 
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 	//тест корректной замены
@@ -111,7 +111,7 @@ func TestEmailDetector(t *testing.T) {
 }
 
 func TestIp(t *testing.T) {
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 
@@ -155,7 +155,7 @@ func TestIp(t *testing.T) {
 
 }
 func TestUrl(t *testing.T) {
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 	input := "open https://example.com/login"
@@ -198,7 +198,7 @@ func TestUrl(t *testing.T) {
 }
 
 func TestNoMatch(t *testing.T) {
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 	input := "normal log line without secrets"
@@ -243,7 +243,7 @@ func TestDisabledDetector(t *testing.T) {
 }
 
 func TestLongString(t *testing.T) {
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 
 	sanitizer.Reset()
@@ -312,7 +312,7 @@ func TestLongString(t *testing.T) {
 func TestMappingSaveLoad(t *testing.T) {
 	tmpDir := t.TempDir()
 	mappingPath := filepath.Join(tmpDir, "mapping.json")
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 	input := "user=ivanov email=ivanov@example.com ip=10.1.2.3"
@@ -334,7 +334,7 @@ func TestMappingSaveLoad(t *testing.T) {
 }
 
 func TestConcurrentProcessing(t *testing.T) {
-	detectors := getTestDetectors()
+	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
 	//resetGlobals()
 

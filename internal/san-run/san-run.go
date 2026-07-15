@@ -66,7 +66,7 @@ func Run(inDir, outDir, configPath, reportPath, mappingIn, mappingOut string) er
 				}
 			}()
 
-			writer := bufio.NewWriterSize(outFile, 256*1024*1024)
+			writer := bufio.NewWriterSize(outFile, 5*1024*1024)
 			lines, err := processor.ProcessFileToWrite(inPath, writer, sanitizer)
 			if err != nil {
 				errorsChan <- fmt.Sprintf("Ошибка обработки %s: %v", fileName, err)

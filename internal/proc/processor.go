@@ -2,7 +2,9 @@ package processor
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
+	"io"
 	"logsan/internal/san"
 	"os"
 )
@@ -40,14 +42,15 @@ func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*Process
 			}
 		}
 		if err != nil {
-			if err.Error() != "EOF" {
-				return result, fmt.Errorf("Ошибка чтения %s: %v", inPath, err)
-
+			if errors.Is(err, io.EOF) {
+				break
 			}
-			break
+			return result, fmt.Errorf("Ошибка чтения %s : %v", inPath, err)
+
 		}
 
 	}
+
 	return result, nil
 }
 
@@ -70,14 +73,11 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 			lines++
 		}
 		if err != nil {
-			if err.Error() != "EOF" {
-				return lines, fmt.Errorf("Ошибка чтения %s : %v", inPath, err)
+			if errors.Is(err, io.EOF) {
+				break
 			}
-			break
+			return lines, fmt.Errorf("Ошибка чтения %s : %v", inPath, err)
 		}
-	}
-	if err := writer.Flush(); err != nil {
-		return lines, fmt.Errorf("Ошибка сброса буфера: %v", err)
 	}
 	return lines, nil
 }

@@ -101,6 +101,18 @@ func getDetectors() []config.Detector {
 	}
 }
 
+func BenchmarkSmall(b *testing.B) {
+	detectors := getDetectors()
+	sanitizer := NewSanitizer(detectors)
+
+	line := "user=ivanov email=ivanov@example.com ip=10.1.2.3 token=ab12cd34ef56 url=https://example.com/login"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		sanitizer.ProcessLine(line)
+	}
+}
+
 func Benchmark_GBLog(b *testing.B) {
 	logPath := createSyntheticLog(b, 1024*1024*1024)
 	defer os.Remove(logPath)
@@ -121,8 +133,8 @@ func Benchmark_GBLog(b *testing.B) {
 	defer os.Remove(outFile.Name())
 	defer outFile.Close()
 
-	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
-	writer := bufio.NewWriterSize(outFile, 256*1024*1024)
+	reader := bufio.NewReaderSize(inFile, 10*1024*1024)
+	writer := bufio.NewWriterSize(outFile, 10*1024*1024)
 
 	b.ResetTimer()
 	start := time.Now()
