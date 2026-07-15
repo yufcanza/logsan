@@ -21,7 +21,7 @@ func createSyntheticLog(b *testing.B, size int) string {
 	}
 	defer file.Close()
 
-	writer := bufio.NewWriterSize(file, 256*1024*1024)
+	writer := bufio.NewWriterSize(file, 1*1024*1024)
 
 	templates := []string{
 		"2026-07-10 10:15:22 INFO user=%s email=%s@%s ip=%d.%d.%d.%d token=%s\n",
