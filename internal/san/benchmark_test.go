@@ -21,7 +21,11 @@ func createSyntheticLog(b *testing.B, size int) string {
 	if err != nil {
 		b.Fatalf("Ошибка создания файла: %v", err)
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			fmt.Printf("Ошибка закрытия %s: %v", file, err)
+		}
+	}()
 
 	writer := bufio.NewWriterSize(file, 1*1024*1024)
 
@@ -130,14 +134,22 @@ func Benchmark_GBLog(b *testing.B) {
 	if err != nil {
 		b.Fatalf("Ошибка открытия файла: %v", err)
 	}
-	defer inFile.Close()
+	defer func() {
+		if err := inFile.Close(); err != nil {
+			fmt.Printf("Ошибка закрытия %s: %v", inFile, err)
+		}
+	}()
 
 	outFile, err := os.CreateTemp("", "benchmark_output.log")
 	if err != nil {
 		b.Fatalf("Ошибка создания временного файла: %v", err)
 	}
 	defer os.Remove(outFile.Name())
-	defer outFile.Close()
+	defer func() {
+		if err := outFile.Close(); err != nil {
+			fmt.Printf("Ошибка закрытия %s: %v", outFile, err)
+		}
+	}()
 
 	reader := bufio.NewReaderSize(inFile, 10*1024*1024)
 	writer := bufio.NewWriterSize(outFile, 10*1024*1024)

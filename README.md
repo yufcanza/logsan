@@ -31,7 +31,7 @@ make build
 ./logsan sanitize --in ./logs --out ./clean-logs --config detectors.yaml --report report.json
 
 Пробный запуск (без записи):
-./logsan dry-run --in ./logs --config detectors.yaml --report dry-report.json
+./logsan dry-run --in ./logs --config detectors.yaml --report report.md
 
 С сохранением словаря замен:
 ./logsan sanitize --in ./logs --out ./clean-logs -mapping-in mapping.json -mapping-in mapping_new.json
@@ -71,7 +71,7 @@ make test    - Тесты
 make bench   - Тестовый бенчмарк
 make bench-1gb - Бенчмарк на 1 ГБ синтетического лога
 make demo    - Демонстрация
-make demo-check - Проверка работы демонстрации
+make check-demo - Проверка работы демонстрации
 
 # Краткое описание алгоритма:
 
@@ -97,7 +97,7 @@ make demo-check - Проверка работы демонстрации
 # Результаты контрольного запуска:
 
 
-    Файл: 1073741836 байт (1024.00 MB)
-    Строк: 9215856
-    Время: 167841 ms
-    Скорость:  6.10 MB/s
+  Файл: 1073741836 байт (1024.00 MB)
+  Строк: 9215856
+   Время: 186.95 секунд
+    Скорость: 5.48 MB/s

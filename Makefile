@@ -26,5 +26,5 @@ demo: build
 	./$(BINARY_NAME) sanitize --in $(DEMO_INPUT) --out $(DEMO_OUTPUT) --config $(DEMO_CONFIG) --report $(DEMO_REPORT)
 
 check-demo: demo
-	diff -r $(DEMO_EXPECTED) $(DEMO_OUTPUT)
+	powershell -NoProfile -Command "if (Compare-Object (Get-Content testdata/control/expected/clean_control.log) (Get-Content testdata/control/output/clean_control.log)) { exit 1 }"
 

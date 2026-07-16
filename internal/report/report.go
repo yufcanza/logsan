@@ -73,7 +73,7 @@ func saveJson(path string, report *Report) error {
 }
 func SaveMarkdown(path string, report *Report) error {
 	var sb strings.Builder
-	sb.WriteString("Отчет об обезличивании логов")
+	sb.WriteString("Отчет об обезличивании логов\n\n")
 	sb.WriteString("Общая статистика\n\n")
 	sb.WriteString("| Показатель | Значение |\n")
 	sb.WriteString("|------------|----------|\n")
@@ -100,6 +100,16 @@ func SaveMarkdown(path string, report *Report) error {
 		sb.WriteString("\n")
 	} else {
 		sb.WriteString(" Ошибок не обнаружено\n\n")
+	}
+
+	if len(report.ReplacementExamples) > 0 {
+		sb.WriteString(" Примеры замен\n\n")
+		sb.WriteString("| Тип | Псевдоним | Количество |\n")
+		sb.WriteString("|-----|-----------|------------|\n")
+		for _, ex := range report.ReplacementExamples {
+			sb.WriteString(fmt.Sprintf("| `%s` | `%s` | %d |\n", ex.OriginalKind, ex.Replacement, ex.Count))
+
+		}
 	}
 	return os.WriteFile(path, []byte(sb.String()), 0644)
 }
