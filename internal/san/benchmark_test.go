@@ -23,7 +23,7 @@ func createSyntheticLog(b *testing.B, size int) string {
 	}
 	defer func() {
 		if err := file.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", file, err)
+			fmt.Printf("Ошибка закрытия %v: %v", file, err)
 		}
 	}()
 
@@ -136,7 +136,7 @@ func Benchmark_GBLog(b *testing.B) {
 	}
 	defer func() {
 		if err := inFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", inFile, err)
+			fmt.Printf("Ошибка закрытия %v: %v", inFile, err)
 		}
 	}()
 
@@ -147,7 +147,7 @@ func Benchmark_GBLog(b *testing.B) {
 	defer os.Remove(outFile.Name())
 	defer func() {
 		if err := outFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", outFile, err)
+			fmt.Printf("Ошибка закрытия %v: %v", outFile, err)
 		}
 	}()
 
