@@ -63,7 +63,7 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 		}
 	}()
 
-	reader := bufio.NewReaderSize(inFile, 256*1024*1024)
+	reader := bufio.NewReaderSize(inFile, 5*1024*1024)
 	lines := 0
 	for {
 		line, err := reader.ReadString('\n')

@@ -2,7 +2,9 @@ package san
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
+	"io"
 	"logsan/internal/config"
 	"os"
 	"path/filepath"
@@ -147,18 +149,23 @@ func Benchmark_GBLog(b *testing.B) {
 		line, err := reader.ReadString('\n')
 		if len(line) > 0 {
 			processed := sanitizer.ProcessLine(line)
-			writer.WriteString(processed)
+			if _, err := writer.WriteString(processed); err != nil {
+				b.Fatalf("Ошибка записи: %v", err)
+			}
 			lineCount++
 		}
 		if err != nil {
-			if err.Error() != "EOF" {
-				b.Fatalf("Ошибка чтения: %v", err)
+			if errors.Is(err, io.EOF) {
+				break
 			}
-			break
+			b.Fatalf("Ошибка чтения: %v", err)
+
 		}
 	}
 
-	writer.Flush()
+	if err := writer.Flush(); err != nil {
+		b.Fatalf("Ошибка сброса буфера: %v", err)
+	}
 
 	elapsed := time.Since(start)
 	fileInfo, _ := os.Stat(logPath)

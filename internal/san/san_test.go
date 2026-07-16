@@ -71,7 +71,7 @@ func TestEmailDetector(t *testing.T) {
 	sanitizer.Reset()
 	//тест корректной замены
 	input := "user email=ivanov@example.com"
-	want := "user email=email_1"
+	want := "user email=email_001"
 	result := sanitizer.ProcessLine(input)
 
 	if result != want {
@@ -84,7 +84,7 @@ func TestEmailDetector(t *testing.T) {
 
 	sanitizer.Reset()
 	sameInput := "ivanov@example.com and ivanov@example.com"
-	sameWant := "email_1 and email_1"
+	sameWant := "email_001 and email_001"
 	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
@@ -97,7 +97,7 @@ func TestEmailDetector(t *testing.T) {
 	sanitizer.Reset()
 
 	differentInput := "ivanov@example.com and smirnov@example.com"
-	differentWant := "email_1 and email_2"
+	differentWant := "email_001 and email_002"
 	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {
@@ -116,7 +116,7 @@ func TestIp(t *testing.T) {
 	sanitizer.Reset()
 
 	input := "src=10.1.2.3"
-	want := "src=ip_1"
+	want := "src=ip_001"
 	result := sanitizer.ProcessLine(input)
 
 	if result != want {
@@ -129,7 +129,7 @@ func TestIp(t *testing.T) {
 	sanitizer.Reset()
 
 	sameInput := "src=10.1.2.3 dst=10.1.2.3"
-	sameWant := "src=ip_1 dst=ip_1"
+	sameWant := "src=ip_001 dst=ip_001"
 	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
@@ -142,7 +142,7 @@ func TestIp(t *testing.T) {
 	sanitizer.Reset()
 
 	differentInput := "src=10.1.2.5 dst=192.168.1.15"
-	differentWant := "src=ip_1 dst=ip_2"
+	differentWant := "src=ip_001 dst=ip_002"
 	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {
@@ -159,7 +159,7 @@ func TestUrl(t *testing.T) {
 	sanitizer := NewSanitizer(detectors)
 	sanitizer.Reset()
 	input := "open https://example.com/login"
-	want := "open url_1"
+	want := "open url_001"
 	result := sanitizer.ProcessLine(input)
 
 	if result != want {
@@ -172,7 +172,7 @@ func TestUrl(t *testing.T) {
 	sanitizer.Reset()
 
 	sameInput := "open https://example.com/login and https://example.com/login"
-	sameWant := "open url_1 and url_1"
+	sameWant := "open url_001 and url_001"
 	sameResult := sanitizer.ProcessLine(sameInput)
 
 	if sameResult != sameWant {
@@ -184,7 +184,7 @@ func TestUrl(t *testing.T) {
 	}
 	sanitizer.Reset()
 	differentInput := "open https://example.com/login and https://example.com/dowload"
-	differentWant := "open url_1 and url_2"
+	differentWant := "open url_001 and url_002"
 	differentResult := sanitizer.ProcessLine(differentInput)
 
 	if differentResult != differentWant {

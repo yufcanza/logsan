@@ -76,7 +76,7 @@ func (s *Sanitizer) ProcessLine(line string) string {
 
 			if !exists { //если такое значение ранее не повторялось, доваляю счетчик и делаю новый маппинг
 				s.counter[detector.ID]++
-				mask = fmt.Sprintf("%s_%d", detector.ReplacementPrefix, s.counter[detector.ID])
+				mask = fmt.Sprintf("%s_%03d", detector.ReplacementPrefix, s.counter[detector.ID])
 				s.mapping[key] = mask
 			}
 			s.stats[detector.ID]++

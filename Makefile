@@ -5,6 +5,7 @@ DEMO_INPUT=./testdata/control/input/
 DEMO_OUTPUT=./testdata/control/output/
 DEMO_CONFIG=./testdata/control/config/detectors.yaml
 DEMO_REPORT=./testdata/control/report.json
+DEMO_EXPECTED=./testdata/control/expected/
 
 build:
 	go build -o $(BINARY_NAME) ./cmd/logsan
@@ -23,5 +24,7 @@ bench-1gb:
 # Демонстрация
 demo: build
 	./$(BINARY_NAME) sanitize --in $(DEMO_INPUT) --out $(DEMO_OUTPUT) --config $(DEMO_CONFIG) --report $(DEMO_REPORT)
-	
+
+check-demo: demo
+	diff -r $(DEMO_EXPECTED) $(DEMO_OUTPUT)
 
