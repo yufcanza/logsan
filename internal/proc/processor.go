@@ -20,8 +20,8 @@ func ProcessFile(inPath string, sanitizer *san.Sanitizer, dryrun bool) (*Process
 		return nil, fmt.Errorf("Не удалось открыть %s: %v", inPath, err)
 	}
 	defer func() {
-		if err := inFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", inPath, err)
+		if closeErr := inFile.Close(); closeErr != nil && err != nil {
+			err = fmt.Errorf("Ошибка закрытия %s: %v", inPath, err)
 		}
 	}()
 
@@ -58,8 +58,8 @@ func ProcessFileToWrite(inPath string, writer *bufio.Writer, sanitizer *san.Sani
 		return 0, fmt.Errorf("Ошибка чтения директории %s: %v", inPath, err)
 	}
 	defer func() {
-		if err := inFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", inPath, err)
+		if closeErr := inFile.Close(); closeErr != nil && err != nil {
+			err = fmt.Errorf("Ошибка закрытия %s: %v", inPath, err)
 		}
 	}()
 

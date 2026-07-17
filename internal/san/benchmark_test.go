@@ -55,7 +55,9 @@ func createSyntheticLog(b *testing.B, size int) string {
 		line := fmt.Sprintf(template, user, user, domain, ip1, ip2, ip3, ip4, token, user)
 		lineNum++
 
-		writer.WriteString(line)
+		if _, err := writer.WriteString(line); err != nil {
+			b.Fatalf("Ошибка записи: %v", err)
+		}
 		written += int(len(line))
 
 		if lineNum%1000 == 0 {
