@@ -297,11 +297,17 @@ function Add-StandardEngineeringAssessments {
     if ($Ctx.CommandResults.ContainsKey('go_test_all')) {
         Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.go_test_passes' -Level 'engineering' -Category 'tests' -Requirement 'go test ./... passes' -CommandName 'go_test_all'
     }
-    if ($Ctx.CommandResults.ContainsKey('go_test_bench')) {
-        Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.benchmarks_run' -Level 'engineering' -Category 'benchmarks' -Requirement 'Benchmark tests run' -CommandName 'go_test_bench'
-    }
     if ($Ctx.CommandResults.ContainsKey('go_test_race')) {
         Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.race_test_passes' -Level 'engineering' -Category 'tests' -Requirement 'go test -race ./... passes' -CommandName 'go_test_race'
+    }
+    if ($Ctx.CommandResults.ContainsKey('make_test')) {
+        Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.make_test_runs' -Level 'engineering' -Category 'reproducibility' -Requirement 'make test passes' -CommandName 'make_test'
+    }
+    if ($Ctx.CommandResults.ContainsKey('make_bench')) {
+        Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.make_bench_runs' -Level 'engineering' -Category 'reproducibility' -Requirement 'make bench passes' -CommandName 'make_bench'
+    }
+    if ($Ctx.CommandResults.ContainsKey('make_demo')) {
+        Add-CommandFeatureAssessment -Ctx $Ctx -Id 'engineering.make_demo_runs' -Level 'engineering' -Category 'reproducibility' -Requirement 'make demo passes' -CommandName 'make_demo'
     }
 
     $readmePath = Join-Path $Ctx.RepoRoot 'README.md'
@@ -454,7 +460,6 @@ detectors:
 
 Invoke-CheckCommand -Ctx $ctx -Name 'go_test_all' -Command "& '$($ctx.GoCmd)' test ./..."
 Invoke-CheckCommand -Ctx $ctx -Name 'go_test_race' -Command "& '$($ctx.GoCmd)' test -race ./..."
-Invoke-CheckCommand -Ctx $ctx -Name 'go_test_bench' -Command "& '$($ctx.GoCmd)' test -bench=. ./..."
 
 if (Test-Path -LiteralPath (Join-Path $ctx.RepoRoot 'Makefile')) {
     Invoke-CheckCommand -Ctx $ctx -Name 'make_test' -Command 'make test'
@@ -470,9 +475,9 @@ $jsonReport = Join-Path $ctx.OutputsDir 'report.json'
 $dryReport = Join-Path $ctx.OutputsDir 'dry_run.md'
 $mapping = Join-Path $ctx.OutputsDir 'mapping.json'
 
-Invoke-CheckCommand -Ctx $ctx -Name 'cli_sanitize_file' -Command "& '$tool' sanitize --in '$logPath' --out '$cleanLog' --report '$jsonReport' --config '$detectorsPath' --outmap '$mapping'"
+Invoke-CheckCommand -Ctx $ctx -Name 'cli_sanitize_file' -Command "& '$tool' sanitize --in '$logPath' --out '$cleanLog' --report '$jsonReport' --config '$detectorsPath' --mapping-out '$mapping'"
 Invoke-CheckCommand -Ctx $ctx -Name 'cli_dry_run' -Command "& '$tool' dry-run --in '$logPath' --config '$detectorsPath' --report '$dryReport'"
-Invoke-CheckCommand -Ctx $ctx -Name 'cli_sanitize_with_loaded_mapping' -Command "& '$tool' sanitize --in '$logPath' --out '$($ctx.OutputsDir)\app.clean.with-map.log' --report '$($ctx.OutputsDir)\report.with-map.json' --config '$detectorsPath' --inmap '$mapping'"
+Invoke-CheckCommand -Ctx $ctx -Name 'cli_sanitize_with_loaded_mapping' -Command "& '$tool' sanitize --in '$logPath' --out '$($ctx.OutputsDir)\app.clean.with-map.log' --report '$($ctx.OutputsDir)\report.with-map.json' --config '$detectorsPath' --mapping-in '$mapping'"
 
 $expectedArtifacts = [ordered]@{
     clean_log = Test-Path -LiteralPath $cleanLog
@@ -497,7 +502,7 @@ Add-SourceFeatureAssessment -Ctx $ctx -Id 'good.large_line_tests' -Level 'good' 
 Add-CommandFeatureAssessment -Ctx $ctx -Id 'excellent.mapping_save_load' -Level 'excellent' -Category 'algorithm' -Requirement 'Replacement mapping save and load' -CommandName 'cli_sanitize_with_loaded_mapping' -RequiredArtifacts @($mapping, (Join-Path $ctx.OutputsDir 'app.clean.with-map.log'))
 Add-SourceFeatureAssessment -Ctx $ctx -Id 'excellent.parallel_files' -Level 'excellent' -Category 'performance' -Requirement 'Parallel file processing without races' -Patterns @('sync\.WaitGroup|errgroup','sync\.Mutex|sync\.RWMutex') -Match 'all'
 Add-SourceFeatureAssessment -Ctx $ctx -Id 'excellent.safe_examples' -Level 'excellent' -Category 'report' -Requirement 'Safe replacement examples without originals' -Patterns @('replacement_examples|ReplacementExamples') -Match 'any'
-Add-CommandFeatureAssessment -Ctx $ctx -Id 'excellent.large_benchmark' -Level 'excellent' -Category 'performance' -Requirement 'Key processing benchmark runs' -CommandName 'go_test_bench'
+Add-SourceFeatureAssessment -Ctx $ctx -Id 'excellent.large_benchmark' -Level 'excellent' -Category 'performance' -Requirement 'Benchmark for 1GB synthetic log exists' -Patterns @('Benchmark.*GB|Benchmark_GB|GBLog','LOGSAN_BENCH_1GB|bench-1gb|1073741824|1GB|1\s*\u0413\u0411') -Match 'all'
 
 Complete-Check -Ctx $ctx -Extra @{
     expected_cli = 'logsan sanitize/dry-run'
