@@ -160,8 +160,8 @@ func RunFile(inFile, outFile, configPath, reportPath, mappingIn, mappingOut stri
 		return fmt.Errorf("Jшибка создания %s: %v", outFile, err)
 	}
 	defer func() {
-		if err := outFileHandle.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %s: %v", outFile, err)
+		if closeErr := outFileHandle.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("Ошибка закрытия %s: %v", outFile, err)
 		}
 	}()
 
