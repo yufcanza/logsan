@@ -23,7 +23,7 @@ func createSyntheticLog(b *testing.B, size int) string {
 	}
 	defer func() {
 		if err := file.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %v: %v", file, err)
+			b.Logf("Ошибка закрытия %v: %v", file, err)
 		}
 	}()
 
@@ -58,11 +58,15 @@ func createSyntheticLog(b *testing.B, size int) string {
 		writer.WriteString(line)
 		written += int(len(line))
 
-		if lineNum%10000 == 0 {
-			writer.Flush()
+		if lineNum%1000 == 0 {
+			if err := writer.Flush(); err != nil {
+				b.Fatalf("Ошибка сброса буфера: %v", err)
+			}
 		}
 	}
-	writer.Flush()
+	if err := writer.Flush(); err != nil {
+		b.Fatalf("Ошибка сброса буфера: %v", err)
+	}
 	return logPath
 
 }
@@ -125,7 +129,11 @@ func Benchmark_GBLog(b *testing.B) {
 		b.Skip("set LOGSAN_BENCH_1GB=1 to run 1GB benchmark")
 	}
 	logPath := createSyntheticLog(b, 1024*1024*1024)
-	defer os.Remove(logPath)
+	defer func() {
+		if err := os.Remove(logPath); err != nil {
+			b.Logf("⚠️ Ошибка удаления файла: %v", err)
+		}
+	}()
 
 	detectors := getDetectors()
 	sanitizer := NewSanitizer(detectors)
@@ -136,7 +144,7 @@ func Benchmark_GBLog(b *testing.B) {
 	}
 	defer func() {
 		if err := inFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %v: %v", inFile, err)
+			b.Logf("Ошибка закрытия %v: %v", inFile, err)
 		}
 	}()
 
@@ -144,10 +152,15 @@ func Benchmark_GBLog(b *testing.B) {
 	if err != nil {
 		b.Fatalf("Ошибка создания временного файла: %v", err)
 	}
-	defer os.Remove(outFile.Name())
+	defer func() {
+		if err := os.Remove(outFile.Name()); err != nil {
+			b.Logf("Ошибка удаления %s: %v", outFile.Name(), err)
+		}
+	}()
+
 	defer func() {
 		if err := outFile.Close(); err != nil {
-			fmt.Printf("Ошибка закрытия %v: %v", outFile, err)
+			b.Logf("Ошибка закрытия %v: %v", outFile, err)
 		}
 	}()
 

@@ -30,11 +30,13 @@ make build
 Основная команда:
 ./logsan sanitize --in ./logs --out ./clean-logs --config detectors.yaml --report report.json
 
-Пробный запуск (без записи):
+Пробный запуск папки (без записи):
 ./logsan dry-run --in ./logs --config detectors.yaml --report report.md
 
+./logsan dry-run --in app.log --config detectors.yaml --report report.md
+
 С сохранением словаря замен:
-./logsan sanitize --in ./logs --out ./clean-logs -mapping-in mapping.json -mapping-in mapping_new.json
+./logsan sanitize --in ./logs --out ./clean-logs --mapping-in mapping.json --mapping-in mapping_new.json
 
 # Формат входных данных:
 
@@ -94,10 +96,15 @@ make check-demo - Проверка работы демонстрации
 |---|---|
 | Производительность | Скорость обработки ~6 МБ/с, что ниже требуемых |
 
+Ограничения производительности происходят из-за долгой обработки регулярных значений и обеспечения сихронизации доступа к словарю замен.
+
 # Результаты контрольного запуска:
 
 
-  Файл: 1073741836 байт (1024.00 MB)
+ Файл: 1073741836 байт (1024.00 MB)
   Строк: 9215856
-   Время: 186.95 секунд
-    Скорость: 5.48 MB/s
+  Время: 174.05 секунд
+  Скорость: 5.88 MB/s
+
+  make check-demo не возвращает ошибок. Если expected и output различны, ошибка возвращается.
+
